@@ -1309,7 +1309,7 @@ static bool _jiyva_retribution()
 /**
  * Let Fedhas call down the enmity of nature upon the player!
  * Equal chance corrosive bolt, primal wave (a throwback to rain),
- * or thorn volly
+ * or thorn volley
  */
 static void _fedhas_nature_retribution()
 {
