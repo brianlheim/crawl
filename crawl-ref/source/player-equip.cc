@@ -711,9 +711,18 @@ static void _unequip_weapon_effect(item_def& real_item, bool showMsgs,
                     // Makes no sense to discourage unwielding a temporarily
                     // branded weapon since you can wait it out. This also
                     // fixes problems with unwield prompts (mantis #793).
-                    MiscastEffect(&you, nullptr, {miscast_source::wield},
-                                  spschool::translocation, 9, 90,
-                                  "a distortion unwield");
+                    if (coinflip())
+                        you_teleport_now(false, true, "Space warps around you!");
+                    else if (coinflip())
+                    {
+                        you.banish(nullptr, "a distortion unwield",
+                                   you.get_experience_level(), true);
+                    }
+                    else
+                    {
+                        mpr("Space warps into you!");
+                        contaminate_player(random2avg(18000, 3), true);
+                    }
                 }
                 break;
 
