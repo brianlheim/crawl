@@ -843,64 +843,6 @@ attack_flavour attack::random_chaos_attack_flavour()
     return *random_choose_weighted(weights);
 }
 
-void attack::do_miscast()
-{
-    if (miscast_level == -1)
-        return;
-
-    ASSERT(miscast_target != nullptr);
-    ASSERT_RANGE(miscast_level, 0, 4);
-    ASSERT(count_bits(static_cast<uint64_t>(miscast_type)) == 1);
-
-    if (!miscast_target->alive())
-        return;
-
-    if (miscast_target->is_player() && you.banished)
-        return;
-
-    const bool chaos_brand =
-        using_weapon() && get_weapon_brand(*weapon) == SPWPN_CHAOS;
-
-    // If the miscast is happening on the attacker's side and is due to
-    // a chaos weapon then make smoke/sand/etc pour out of the weapon
-    // instead of the attacker's hands.
-    string hand_str;
-
-    string cause = atk_name(DESC_THE);
-
-    const int ignore_mask = ISFLAG_KNOW_CURSE | ISFLAG_KNOW_PLUSES;
-
-    if (attacker->is_player())
-    {
-        if (chaos_brand)
-        {
-            cause = "a chaos effect from ";
-            // Ignore a lot of item flags to make cause as short as possible,
-            // so it will (hopefully) fit onto a single line in the death
-            // cause screen.
-            cause += wep_name(DESC_YOUR, ignore_mask | ISFLAG_COSMETIC_MASK);
-
-            if (miscast_target == attacker)
-                hand_str = wep_name(DESC_PLAIN, ignore_mask);
-        }
-    }
-    else
-    {
-        if (chaos_brand && miscast_target == attacker
-            && you.can_see(*attacker))
-        {
-            hand_str = wep_name(DESC_PLAIN, ignore_mask);
-        }
-    }
-
-    MiscastEffect(miscast_target, attacker, {miscast_source::melee},
-                  (spschool) miscast_type, miscast_level, cause,
-                  nothing_happens::NEVER, 0, hand_str, false);
-
-    // Don't do miscast twice for one attack.
-    miscast_level = -1;
-}
-
 void attack::drain_defender()
 {
     if (defender->is_monster() && coinflip())
