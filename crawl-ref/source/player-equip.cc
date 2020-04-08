@@ -30,6 +30,7 @@
 #include "shopping.h"
 #include "spl-miscast.h"
 #include "spl-summoning.h"
+#include "spl-transloc.h"
 #include "spl-wpnench.h"
 #include "xom.h"
 
