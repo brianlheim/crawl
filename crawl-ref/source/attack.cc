@@ -62,8 +62,7 @@ attack::attack(actor *attk, actor *defn, actor *blame)
       attacker_to_hit_penalty(0), attack_verb("bug"), verb_degree(),
       no_damage_message(), special_damage_message(), aux_attack(), aux_verb(),
       attacker_armour_tohit_penalty(0), attacker_shield_tohit_penalty(0),
-      defender_shield(nullptr), miscast_level(-1), miscast_type(spschool::none),
-      miscast_target(nullptr), fake_chaos_attack(false), simu(false),
+      defender_shield(nullptr), fake_chaos_attack(false), simu(false),
       aux_source(""), kill_type(KILLED_BY_MONSTER)
 {
     // No effective code should execute, we'll call init_attack again from
@@ -1596,14 +1595,6 @@ bool attack::apply_damage_brand(const char *what)
 
     if (damage_brand == SPWPN_CHAOS)
     {
-        if (brand != SPWPN_CHAOS && !ret
-            && miscast_level == -1 && one_chance_in(20))
-        {
-            miscast_level  = 0;
-            miscast_type   = spschool::random;
-            miscast_target = random_choose(attacker, defender);
-        }
-
         if (responsible->is_player())
             did_god_conduct(DID_CHAOS, 2 + random2(3), brand_was_known);
     }
@@ -1616,10 +1607,6 @@ bool attack::apply_damage_brand(const char *what)
         mpr(special_damage_message);
 
         special_damage_message.clear();
-        // Don't do message-only miscasts along with a special
-        // damage message.
-        if (miscast_level == 0)
-            miscast_level = -1;
     }
 
     // Preserve Nessos's brand stacking in a hacky way -- but to be fair, it
