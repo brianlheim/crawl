@@ -28,6 +28,7 @@ jobs:
 
 before_install:
 - iflin () { if [[ $TRAVIS_OS_NAME == linux ]]; then eval $@; fi; }
+- ifwin () { if [[ $TRAVIS_OS_NAME == windows ]]; then eval $@; fi; }
 - iflin "wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | sudo apt-key add -"
 - iflin sudo apt-add-repository "'deb https://apt.kitware.com/ubuntu/ xenial main'"
 - iflin sudo apt-get update
@@ -35,8 +36,12 @@ before_install:
 - iflin export PATH=/usr/bin:$PATH # to get around travis's preinstalled version
 - iflin cmake --version
 - iflin which cmake
-- iflin echo $PATH
-- iflin /usr/bin/cmake --version
+
+- iflin export CMAKE_FLAGS=
+- ifwin export CMAKE_FLAGS=-DTILE_MODE=LOCAL_TILES
+
+- iflin export BUILD_FLAGS=-j2
+- ifwin export BUILD_FLAGS=
 
 install:
 - git fetch --unshallow
@@ -45,11 +50,11 @@ install:
 script:
 - mkdir build
 - cd build
-- /usr/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DUSE_ALL_DEPS_FROM_CONTRIB=1 ../crawl-ref
+- cmake -DCMAKE_BUILD_TYPE=Debug -DUSE_ALL_DEPS_FROM_CONTRIB=1 $CMAKE_FLAGS ../crawl-ref
 - cat CMakeFiles/CMakeOutput.log
 - cat CMakeFiles/CMakeError.log
-- /usr/bin/cmake --build . --config Debug --target all
-- /usr/bin/cmake --build . --config Debug --target monster
+- cmake --build . --config Debug --target all -- $BUILD_FLAGS
+- cmake --build . --config Debug --target monster -- $BUILD_FLAGS
 
 notifications:
     email:
