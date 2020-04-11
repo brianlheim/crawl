@@ -31,8 +31,8 @@ before_install:
 - ifwin () { if [[ $TRAVIS_OS_NAME == windows ]]; then eval $@; fi; }
 - iflin "wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | sudo apt-key add -"
 - iflin sudo apt-add-repository "'deb https://apt.kitware.com/ubuntu/ xenial main'"
-- iflin sudo apt-get update
-- iflin sudo apt-get install cmake
+- iflin travis_retry sudo apt-get update
+- iflin travis_retry sudo apt-get install cmake
 - iflin export PATH=/usr/bin:$PATH # to get around travis's preinstalled version
 - iflin cmake --version
 - iflin which cmake
