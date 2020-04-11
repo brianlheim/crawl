@@ -45,6 +45,8 @@ script:
 - mkdir build
 - cd build
 - cmake -DCMAKE_BUILD_TYPE=Debug -DUSE_ALL_DEPS_FROM_CONTRIB=1 ../crawl-ref
+- cat CMakeFiles/CMakeOutput.log
+- cat CMakeFiles/CMakeError.log
 - cmake --build . --config Debug --target all
 - cmake --build . --config Debug --target monster
 
