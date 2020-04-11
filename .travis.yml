@@ -34,6 +34,7 @@ before_install:
 - iflin sudo apt-get install cmake
 - iflin cmake --version
 - iflin which cmake
+- iflin echo $PATH
 - iflin /usr/bin/cmake --version
 - iflin /usr/local/bin/cmake --version
 
