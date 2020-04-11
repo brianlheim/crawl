@@ -439,7 +439,7 @@ set(USE_FREETYPE2_FROM_CONTRIB OFF CACHE BOOL
 if(NEEDS_FREETYPE2)
     if(USE_ALL_DEPS_FROM_CONTRIB OR USE_FREETYPE2_FROM_CONTRIB)
         message(STATUS "Using Freetype2 from contrib")
-        file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/contrib/include)
+        file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/contrib/include/freetype2)
         ExternalProject_Add(build-freetype
             BUILD_IN_SOURCE ON
             SOURCE_DIR "${CMAKE_SOURCE_DIR}/source/contrib/freetype"
