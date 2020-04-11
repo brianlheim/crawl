@@ -1,10 +1,8 @@
 language: cpp
-dist: xenial
 cache: ccache
 addons:
     apt:
         update: true
-        retries: true
         packages: &basic_deps
             - xorg-dev
             - python3-yaml
@@ -18,11 +16,13 @@ git:
 # the rest of the build matrix, specifying each combo directly. Anything
 # without explicit addons here will uses *basic_deps above, and any addons list
 # overrides the global one.
-matrix:
+jobs:
     include:
-        - dist: xenial
+        - os: linux
+          dist: xenial
           compiler: gcc
-        - dist: xenial
+        - os: linux
+          dist: xenial
           compiler: clang
         - os: windows
 
@@ -33,7 +33,7 @@ install:
 script:
 - mkdir build
 - cd build
-- cmake -DCMAKE_BUILD_TYPE=Debug ..
+- cmake -DCMAKE_BUILD_TYPE=Debug -DUSE_ALL_DEPS_FROM_CONTRIB=1 ../crawl-ref
 - cmake --build . --config Debug --target all
 - cmake --build . --config Debug --target monster
 
