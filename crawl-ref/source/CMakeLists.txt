@@ -151,7 +151,7 @@ else()
     )
     add_custom_command(
         OUTPUT ${bison_output}
-        COMMAND ${BISON_EXECUTABLE} -y
+        COMMAND ${BISON_EXECUTABLE} -y -Wno-yacc
                 --defines=${CMAKE_CURRENT_BINARY_DIR}/levcomp.tab.h
                 -b levcomp -o ${CMAKE_CURRENT_BINARY_DIR}/levcomp.tab.cc
                 ${CMAKE_CURRENT_SOURCE_DIR}/util/levcomp.ypp
