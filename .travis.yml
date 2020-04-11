@@ -32,11 +32,11 @@ before_install:
 - iflin sudo apt-add-repository "'deb https://apt.kitware.com/ubuntu/ xenial main'"
 - iflin sudo apt-get update
 - iflin sudo apt-get install cmake
+- iflin export PATH=/usr/bin:$PATH # to get around travis's preinstalled version
 - iflin cmake --version
 - iflin which cmake
 - iflin echo $PATH
 - iflin /usr/bin/cmake --version
-- iflin /usr/local/bin/cmake --version
 
 install:
 - git fetch --unshallow
@@ -45,11 +45,11 @@ install:
 script:
 - mkdir build
 - cd build
-- cmake -DCMAKE_BUILD_TYPE=Debug -DUSE_ALL_DEPS_FROM_CONTRIB=1 ../crawl-ref
+- /usr/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DUSE_ALL_DEPS_FROM_CONTRIB=1 ../crawl-ref
 - cat CMakeFiles/CMakeOutput.log
 - cat CMakeFiles/CMakeError.log
-- cmake --build . --config Debug --target all
-- cmake --build . --config Debug --target monster
+- /usr/bin/cmake --build . --config Debug --target all
+- /usr/bin/cmake --build . --config Debug --target monster
 
 notifications:
     email:
