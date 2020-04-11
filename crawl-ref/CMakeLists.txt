@@ -98,8 +98,8 @@ endif()
 # files are taken. Recomended is leave it 'OFF' (default) unless you absolutely
 # do not have bison / flex available.
 set(USE_PREBUILT_LEVCOMP ON CACHE BOOL
-    "If USE_PREBUILT_LEVCOMP is set to OFF BISON and YACC are requird to
-    generate the level compiler")
+    "If USE_PREBUILT_LEVCOMP is set to OFF BISON and YACC are required to \
+generate the level compiler")
 
 # Setting: TILE_MODE
 # This controls for which display mode crawl will be compiled, i.e. console,
@@ -108,8 +108,8 @@ set(USE_PREBUILT_LEVCOMP ON CACHE BOOL
 # Defaults to 'NO_TILES'
 set(tile_build_modes NO_TILES LOCAL_TILES WEB_TILES)
 set(TILE_MODE NO_TILES CACHE STRING
-  "Defines if build with tiles, web tiles or no tiles, valid values are:
-  NO_TILES, LOCAL_TILES, WEB_TILES")
+    "Defines if build with tiles, web tiles or no tiles, valid values are: \
+NO_TILES, LOCAL_TILES, WEB_TILES")
 set_property(CACHE TILE_MODE PROPERTY STRINGS ${tile_build_modes})
 if(NOT TILE_MODE IN_LIST tile_build_modes)
     message(FATAL_ERROR "TILE_MODE must be one of ${tile_build_modes}")
@@ -152,9 +152,9 @@ endif()
 # Be aware that the defines are passed on to each an every compilation in this
 # build.
 set(ADDITIONAL_DEFINES "" CACHE STRING
-    "Additional preprocessor defines to pass on to the build ca be added here.
-    To for example pass two defines to the build set ADDITIONAL_DEFINES to:
-    \"FOO;BAR=1\"")
+    "Additional preprocessor defines to pass on to the build ca be added here. \
+To for example pass two defines to the build set ADDITIONAL_DEFINES to: \
+\"FOO;BAR=1\"")
 list(APPEND COMMON_DEFINES ${ADDITIONAL_DEFINES})
 
 
