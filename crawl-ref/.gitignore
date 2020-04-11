@@ -280,3 +280,6 @@ icon.png
 /source/webserver/static/stone_soup_icon-512x512.png
 /source/webserver/static/stone_soup_icon-win32.png
 /source/webserver/static/wall.png
+
+# build directories
+/build*
