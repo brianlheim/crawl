@@ -2,6 +2,20 @@
 # Generate files
 ################################################################################
 
+# Usage:
+# GenerateFilesFromScript(target "${output_file_list}" util/somescript.pl
+#                         optional args to script)
+function(GenerateFilesFromScript target_name output_files script)
+    add_custom_command(
+        OUTPUT ${output_files}
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+        DEPENDS ${script}
+        COMMAND ${script} ${ARGN}
+    )
+
+    add_custom_target(${target_name} DEPENDS ${output_files})
+endfunction()
+
 ### art-data.pl ################################################################
 set(art_data_output_headers
     ${CMAKE_CURRENT_SOURCE_DIR}/art-data.h
@@ -12,53 +26,28 @@ set(art_data_output
     ${CMAKE_CURRENT_SOURCE_DIR}/rltiles/tiledef-unrand.cc
 )
 
-add_custom_command(
-    OUTPUT ${art_data_output} ${art_data_output_headers}
-    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-    COMMAND util/art-data.pl
-)
-
-add_custom_target(art-data DEPENDS
-    ${art_data_output}
-    ${art_data_output_headers}
-)
+GenerateFilesFromScript(art-data "${art_data_output};${art_data_output_headers}" util/art-data.pl)
 
 ### gen-mst.pl #################################################################
 set(gen_mst_output
     ${CMAKE_CURRENT_SOURCE_DIR}/mon-mst.h
 )
 
-add_custom_command(
-    OUTPUT ${gen_mst_output}
-    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-    COMMAND util/gen-mst.pl
-)
-
-add_custom_target(gen-mst DEPENDS ${gen_mst_output})
+GenerateFilesFromScript(gen-mst "${gen_mst_output}" util/gen-mst.pl)
 
 ### cmd-name.pl #################################################################
 set(cmd_name_output
     ${CMAKE_CURRENT_SOURCE_DIR}/cmd-name.h
 )
 
-add_custom_command(
-    OUTPUT ${cmd_name_output}
-    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-    COMMAND util/cmd-name.pl
-)
-
-add_custom_target(cmd-name DEPENDS ${cmd_name_output})
+GenerateFilesFromScript(cmd-name "${cmd_name_output}" util/cmd-name.pl)
 
 ### gen-luatags.pl #############################################################
 set(gen_luatags_output
     ${CMAKE_CURRENT_SOURCE_DIR}/dat/dlua/tags.lua
 )
 
-add_custom_command(
-    OUTPUT ${gen_luatags_output}
-    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-    COMMAND util/gen-luatags.pl
-)
+GenerateFilesFromScript(gen-luatags "${gen_luatags_output}" util/gen-luatags.pl)
 
 add_custom_target(copy-dat-to-stage
     COMMENT "Copy dat to stage"
@@ -74,26 +63,17 @@ set(gen_mi_enum_output
     ${CMAKE_CURRENT_SOURCE_DIR}/mi-enum.h
 )
 
-add_custom_command(
-    OUTPUT ${gen_mi_enum_output}
-    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-    COMMAND util/gen-mi-enum
-)
-
-add_custom_target(gen-mi-enum DEPENDS ${gen_mi_enum_output})
+GenerateFilesFromScript(gen-mi-enum "${gen_mi_enum_output}" util/gen-mi-enum)
 
 ### configure (generate config.h) ##############################################
 
 set(generated_config
     ${CMAKE_CURRENT_BINARY_DIR}/config.h
 )
-add_custom_command(
-    OUTPUT ${generated_config}
-    COMMAND ${CMAKE_SOURCE_DIR}/source/util/configure
-            --stdc++${CMAKE_CXX_STANDARD}
-            ${CMAKE_CXX_COMPILER} ${CMAKE_CXX_FLAGS}
-)
-add_custom_target(generate-config DEPENDS ${generated_config})
+
+GenerateFilesFromScript(generate-config "${generated_config}"
+    "${CMAKE_SOURCE_DIR}/source/util/configure"
+    --stdc++${CMAKE_CXX_STANDARD} ${CMAKE_CXX_COMPILER} ${CMAKE_CXX_FLAGS})
 
 add_library(generated-config INTERFACE)
 target_include_directories(generated-config INTERFACE
@@ -109,24 +89,15 @@ set(generated_compflag
     ${CMAKE_CURRENT_SOURCE_DIR}/compflag.h
 )
 
-add_custom_command(
-    OUTPUT ${generated_compflag}
-    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-    COMMAND util/gen-cflg.pl compflag.h
-            "unknown" "unknown" "${HOST}" "${ARCH}"
-)
-add_custom_target(gen-cflg DEPENDS ${generated_compflag})
+GenerateFilesFromScript(gen-cflg "${generated_compflag}"
+    util/gen-cflg.pl compflag.h "unknown" "unknown" "${HOST}" "${ARCH}")
 
 ### gen_ver.pl #################################################################
 set(generated_build
     ${CMAKE_CURRENT_SOURCE_DIR}/build.h
 )
-add_custom_command(
-    OUTPUT ${generated_build}
-    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-    COMMAND util/gen_ver.pl build.h "${MERGE_BASE}"
-)
-add_custom_target(gen-ver DEPENDS ${generated_build})
+
+GenerateFilesFromScript(gen-ver "${generated_build}" util/gen_ver.pl build.h "${MERGE_BASE}")
 
 ### gen .DES parser ############################################################
 if(USE_PREBUILT_LEVCOMP)
