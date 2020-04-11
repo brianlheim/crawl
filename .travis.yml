@@ -32,6 +32,10 @@ before_install:
 - iflin sudo apt-add-repository "'deb https://apt.kitware.com/ubuntu/ xenial main'"
 - iflin sudo apt-get update
 - iflin sudo apt-get install cmake
+- iflin cmake --version
+- iflin which cmake
+- iflin /usr/bin/cmake --version
+- iflin /usr/local/bin/cmake --version
 
 install:
 - git fetch --unshallow
