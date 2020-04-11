@@ -28,8 +28,8 @@ jobs:
 
 before_install:
 - iflin () { if [[ $TRAVIS_OS_NAME == linux ]]; then eval $@; fi; }
-- iflin wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | sudo apt-key add -
-- iflin sudo apt-add-repository 'deb https://apt.kitware.com/ubuntu/ xenial main'
+- iflin "wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | sudo apt-key add -"
+- iflin sudo apt-add-repository "'deb https://apt.kitware.com/ubuntu/ xenial main'"
 - iflin sudo apt-get update
 - iflin sudo apt-get install cmake
 
