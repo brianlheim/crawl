@@ -27,24 +27,34 @@ jobs:
           compiler: gcc
           env:
             - TILE_MODE=NO_TILES
+            - CMAKE_GEN="Unix Makefiles"
         - os: linux
           dist: xenial
           compiler: gcc
           env:
             - TILE_MODE=LOCAL_TILES
+            - CMAKE_GEN="Unix Makefiles"
+          addons:
+            apt:
+              pakcages:
+                - *basic_deps
+                - opengl
         - os: linux
           dist: xenial
           compiler: gcc
           env:
             - TILE_MODE=WEB_TILES
+            - CMAKE_GEN="Unix Makefiles"
         - os: linux
           dist: xenial
           compiler: clang
           env:
             - TILE_MODE=NO_TILES
+            - CMAKE_GEN="Unix Makefiles"
         - os: windows
           env:
             - TILE_MODE=NO_TILES
+            - CMAKE_GEN="MSYS Makefiles"
 
 before_install:
 - iflin () { if [[ $TRAVIS_OS_NAME == linux ]]; then eval $@; fi; }
@@ -93,7 +103,7 @@ install:
 script:
 - mkdir build
 - cd build
-- $msys2 cmake -DCMAKE_BUILD_TYPE=Debug -DUSE_ALL_DEPS_FROM_CONTRIB=1 -DTILE_MODE=$TILE_MODE $CMAKE_FLAGS ../crawl-ref
+- $msys2 cmake -G"$CMAKE_GEN" -DCMAKE_BUILD_TYPE=Debug -DUSE_ALL_DEPS_FROM_CONTRIB=1 -DTILE_MODE=$TILE_MODE $CMAKE_FLAGS ../crawl-ref
 - $msys2 cmake --build . --config Debug --target all -- $BUILD_FLAGS
 #- $msys2 cmake --build . --config Debug --target monster -- $BUILD_FLAGS
 
