@@ -293,8 +293,8 @@ struct save_version
     inline friend bool operator< (const save_version& lhs,
                                                     const save_version& rhs)
     {
-        return lhs.major < rhs.major || lhs.major == rhs.major &&
-                                                    lhs.minor < rhs.minor;
+        return lhs.major < rhs.major || (lhs.major == rhs.major &&
+                                                    lhs.minor < rhs.minor);
     }
     inline friend bool operator> (const save_version& lhs,
                                                     const save_version& rhs)

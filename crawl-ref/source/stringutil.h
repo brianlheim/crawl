@@ -96,7 +96,7 @@ Enum find_earliest_match(const string &spec, Enum begin, Enum end,
         const size_t pos = name.find(spec);
         const size_t len = name.length();
 
-        if (pos < bestpos || pos == 0 && len < bestlen)
+        if (pos < bestpos || (pos == 0 && len < bestlen))
         {
             // Exit early if we found an exact match.
             if (pos == 0 && len == speclen)

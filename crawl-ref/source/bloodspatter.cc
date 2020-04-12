@@ -92,7 +92,7 @@ static void _orient_wall_blood(const coord_def& where, coord_def from,
         if (in_bounds(*ai) && !cell_is_solid(*ai)
             && cell_see_cell(from, *ai, LOS_SOLID)
             && (distance2(*ai, from) < dist
-                || distance2(*ai, from) == dist && coinflip()))
+                || (distance2(*ai, from) == dist && coinflip())))
         {
             closer = *ai;
             dist = distance2(*ai, from);
