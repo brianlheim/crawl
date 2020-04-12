@@ -87,6 +87,7 @@ before_install:
 - ifwin export BUILD_FLAGS=
 
 install:
+- git fetch --unshallow
 - git submodule update --init --recursive
 
 script:
