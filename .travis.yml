@@ -41,6 +41,8 @@ jobs:
                 - libglu1-mesa-dev
                 - freeglut3-dev
                 - mesa-common-dev
+                - libglfw3-dev
+                - libgles2-mesa-dev
         - os: linux
           dist: xenial
           compiler: gcc
