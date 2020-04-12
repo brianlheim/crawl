@@ -38,7 +38,9 @@ jobs:
             apt:
               packages:
                 - *basic_deps
-                - opengl
+                - libglu1-mesa-dev
+                - freeglut3-dev
+                - mesa-common-dev
         - os: linux
           dist: xenial
           compiler: gcc
