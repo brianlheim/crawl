@@ -46,8 +46,10 @@ before_install:
         export msys2+='& C:\\tools\\msys64\\msys2_shell.cmd -defterm -no-start'
         export mingw64="$msys2 -mingw64 -full-path -here -c "\"\$@"\" --"
         export msys2+=" -msys2 -c "\"\$@"\" --"
+
         $msys2 pacman --sync --noconfirm --needed mingw-w64-x86_64-toolchain
-        ## Install more MSYS2 packages from https://packages.msys2.org/base here
+        $msys2 pacman --sync --noconfirm --needed cmake gcc make
+
         taskkill //IM gpg-agent.exe //F  # https://travis-ci.community/t/4967
         export PATH=/C/tools/msys64/mingw64/bin:$PATH
         export MAKE=mingw32-make  # so that Autotools can find it
@@ -79,7 +81,6 @@ before_cache:
     esac
 
 install:
-- ifwin $msys2 pacman -S --noconfirm --needed cmake gcc make
 - git fetch --unshallow
 - git submodule update --init --recursive
 
