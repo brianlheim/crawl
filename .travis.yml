@@ -43,6 +43,12 @@ jobs:
                 - mesa-common-dev
                 - libglfw3-dev
                 - libgles2-mesa-dev
+                - libsdl2-mixer-dev
+                - libsdl2-dev
+                - libpng-dev
+                - libfreetype6-dev
+                - ttf-dejavu-core
+                - python-yaml
         - os: linux
           dist: xenial
           compiler: gcc
