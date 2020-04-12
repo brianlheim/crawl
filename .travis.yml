@@ -83,7 +83,7 @@ before_install:
         export msys2+=" -msys2 -c "\"\$@"\" --"
 
         $msys2 pacman --sync --noconfirm --needed mingw-w64-x86_64-toolchain
-        $msys2 pacman --sync --noconfirm --needed cmake gcc make
+        $msys2 pacman --sync --noconfirm --needed cmake gcc make perl
         $msys2 cmake --version
         $msys2 which cmake
         $msys2 pacman -Syu --noconfirm
