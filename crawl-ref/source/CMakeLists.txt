@@ -1004,6 +1004,7 @@ target_link_libraries(${target} PUBLIC
 
 target_compile_options(${target}
     PUBLIC
+    $<$<CXX_COMPILER_ID:clang>:-Wno-logical-op-parentheses>
     $<$<CXX_COMPILER_ID:AppleClang>:-Wno-logical-op-parentheses>
 )
 
