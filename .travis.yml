@@ -1,9 +1,9 @@
 language: cpp
 cache:
     - ccache
-    directories:
-    - $HOME/AppData/Local/Temp/chocolatey
-    - /C/tools/msys64
+    - directories:
+        - $HOME/AppData/Local/Temp/chocolatey
+        - /C/tools/msys64
 addons:
     apt:
         update: true
