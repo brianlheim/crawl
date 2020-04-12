@@ -1,5 +1,9 @@
 language: cpp
-cache: ccache
+cache:
+    - ccache
+    directories:
+    - $HOME/AppData/Local/Temp/chocolatey
+    - /C/tools/msys64
 addons:
     apt:
         update: true
@@ -86,11 +90,6 @@ script:
 #- $msys2 cmake -DCMAKE_BUILD_TYPE=Debug -DUSE_ALL_DEPS_FROM_CONTRIB=1 $CMAKE_FLAGS ../crawl-ref
 #- $msys2 cmake --build . --config Debug --target all -- $BUILD_FLAGS
 #- $msys2 cmake --build . --config Debug --target monster -- $BUILD_FLAGS
-
-cache:
-    directories:
-    - $HOME/AppData/Local/Temp/chocolatey
-    - /C/tools/msys64
 
 notifications:
     email:
