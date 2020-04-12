@@ -79,7 +79,6 @@ before_cache:
     esac
 
 install:
-- ifwin $msys2 pacman -Syu --noconfirm
 - ifwin $msys2 pacman -S --noconfirm --needed cmake gcc make
 - git fetch --unshallow
 - git submodule update --init --recursive
