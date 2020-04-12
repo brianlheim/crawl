@@ -81,7 +81,6 @@ before_cache:
     esac
 
 install:
-- git fetch --unshallow
 - git submodule update --init --recursive
 
 script:
