@@ -49,8 +49,7 @@ before_install:
         export MAKE=mingw32-make  # so that Autotools can find it
         ;;
     esac
-- ifwin export do=$msys2
-- iflin export do=
+- iflin export msys2=
 
 - iflin "wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | sudo apt-key add -"
 - iflin sudo apt-add-repository "'deb https://apt.kitware.com/ubuntu/ xenial main'"
@@ -76,15 +75,15 @@ before_cache:
     esac
 
 install:
-- $do git fetch --unshallow
-- $do git submodule update --init --recursive
+- $msys2 git fetch --unshallow
+- $msys2 git submodule update --init --recursive
 
 script:
-- $do mkdir build
-- $do cd build
-- $do cmake -DCMAKE_BUILD_TYPE=Debug -DUSE_ALL_DEPS_FROM_CONTRIB=1 $CMAKE_FLAGS ../crawl-ref
-- $do cmake --build . --config Debug --target all -- $BUILD_FLAGS
-#- $do cmake --build . --config Debug --target monster -- $BUILD_FLAGS
+- $msys2 mkdir build
+- $msys2 cd build
+- $msys2 cmake -DCMAKE_BUILD_TYPE=Debug -DUSE_ALL_DEPS_FROM_CONTRIB=1 $CMAKE_FLAGS ../crawl-ref
+- $msys2 cmake --build . --config Debug --target all -- $BUILD_FLAGS
+#- $msys2 cmake --build . --config Debug --target monster -- $BUILD_FLAGS
 
 cache:
     directories:
