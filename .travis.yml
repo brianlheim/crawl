@@ -1,9 +1,9 @@
 language: cpp
 cache:
-    - ccache
     - directories:
         - $HOME/AppData/Local/Temp/chocolatey
         - /C/tools/msys64
+        - $HOME/.ccache
 addons:
     apt:
         update: true
@@ -96,6 +96,11 @@ before_install:
 - iflin export PATH=/usr/bin:$PATH # to get around travis's preinstalled version
 - iflin cmake --version
 - iflin which cmake
+
+- iflin ccache --version
+- iflin which ccache
+
+- iflin export PATH=/usr/lib/ccache:$PATH
 
 - iflin export CMAKE_FLAGS=
 - ifwin export CMAKE_FLAGS=
