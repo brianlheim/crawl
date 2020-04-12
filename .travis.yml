@@ -25,10 +25,26 @@ jobs:
         - os: linux
           dist: xenial
           compiler: gcc
+          env:
+            - TILE_MODE=NO_TILES
+        - os: linux
+          dist: xenial
+          compiler: gcc
+          env:
+            - TILE_MODE=LOCAL_TILES
+        - os: linux
+          dist: xenial
+          compiler: gcc
+          env:
+            - TILE_MODE=WEB_TILES
         - os: linux
           dist: xenial
           compiler: clang
+          env:
+            - TILE_MODE=NO_TILES
         - os: windows
+          env:
+            - TILE_MODE=NO_TILES
 
 before_install:
 - iflin () { if [[ $TRAVIS_OS_NAME == linux ]]; then eval $@; fi; }
@@ -50,7 +66,6 @@ before_install:
         $msys2 pacman --sync --noconfirm --needed mingw-w64-x86_64-toolchain
         $msys2 pacman --sync --noconfirm --needed cmake gcc make
 
-        taskkill //IM gpg-agent.exe //F  # https://travis-ci.community/t/4967
         export PATH=/C/tools/msys64/mingw64/bin:$PATH
         export MAKE=mingw32-make  # so that Autotools can find it
         ;;
@@ -66,10 +81,20 @@ before_install:
 - iflin which cmake
 
 - iflin export CMAKE_FLAGS=
-- ifwin export CMAKE_FLAGS= # -DTILE_MODE=LOCAL_TILES
+- ifwin export CMAKE_FLAGS=
 
 - iflin export BUILD_FLAGS=-j2
 - ifwin export BUILD_FLAGS=
+
+install:
+- git submodule update --init --recursive
+
+script:
+- mkdir build
+- cd build
+- $msys2 cmake -DCMAKE_BUILD_TYPE=Debug -DUSE_ALL_DEPS_FROM_CONTRIB=1 -DTILE_MODE=$TILE_MODE $CMAKE_FLAGS ../crawl-ref
+- $msys2 cmake --build . --config Debug --target all -- $BUILD_FLAGS
+#- $msys2 cmake --build . --config Debug --target monster -- $BUILD_FLAGS
 
 before_cache:
 - |-
@@ -80,15 +105,9 @@ before_cache:
         ;;
     esac
 
-install:
-- git submodule update --init --recursive
+after_script:
+- ifwin taskkill //IM gpg-agent.exe //F  # https://travis-ci.community/t/4967
 
-script:
-- mkdir build
-- cd build
-- $msys2 cmake -DCMAKE_BUILD_TYPE=Debug -DUSE_ALL_DEPS_FROM_CONTRIB=1 $CMAKE_FLAGS ../crawl-ref
-- $msys2 cmake --build . --config Debug --target all -- $BUILD_FLAGS
-#- $msys2 cmake --build . --config Debug --target monster -- $BUILD_FLAGS
 
 notifications:
     email:
