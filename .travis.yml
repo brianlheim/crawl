@@ -47,7 +47,6 @@ jobs:
                 - libsdl2-dev
                 - libpng-dev
                 - libfreetype6-dev
-                - ttf-dejavu-core
                 - python-yaml
         - os: linux
           dist: xenial
