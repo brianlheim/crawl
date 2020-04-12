@@ -58,7 +58,7 @@ jobs:
         - os: windows
           env:
             - TILE_MODE=NO_TILES
-            - CMAKE_GEN="MSYS Makefiles"
+            - CMAKE_GEN="Unix Makefiles"
 
 before_install:
 - iflin () { if [[ $TRAVIS_OS_NAME == linux ]]; then eval $@; fi; }
@@ -90,6 +90,7 @@ before_install:
         ;;
     esac
 - iflin export msys2=
+- iflin export mingw64=
 
 - iflin "wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | sudo apt-key add -"
 - iflin sudo apt-add-repository "'deb https://apt.kitware.com/ubuntu/ xenial main'"
@@ -117,8 +118,8 @@ install:
 script:
 - mkdir build
 - cd build
-- $msys2 cmake -G"$CMAKE_GEN" -DCMAKE_BUILD_TYPE=Debug -DUSE_ALL_DEPS_FROM_CONTRIB=1 -DTILE_MODE=$TILE_MODE $CMAKE_FLAGS ../crawl-ref
-- $msys2 cmake --build . --config Debug --target all -- $BUILD_FLAGS
+- $mingw64 cmake -G"$CMAKE_GEN" -DCMAKE_BUILD_TYPE=Debug -DUSE_ALL_DEPS_FROM_CONTRIB=1 -DTILE_MODE=$TILE_MODE $CMAKE_FLAGS ../crawl-ref
+- $mingw64 cmake --build . --config Debug --target all -- $BUILD_FLAGS
 #- $msys2 cmake --build . --config Debug --target monster -- $BUILD_FLAGS
 
 before_cache:
