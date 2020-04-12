@@ -523,6 +523,3 @@ endif()
 # Crawl
 ################################################################################
 add_subdirectory(source)
-add_subdirectory(source/util)
-add_subdirectory(source/rltiles)
-add_subdirectory(source/rltiles/tool)

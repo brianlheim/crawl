@@ -89,3 +89,5 @@ target_include_directories(${target} PUBLIC
 target_link_libraries(${target} PUBLIC
     ZLIB::ZLIB
 )
+
+add_subdirectory(tool)

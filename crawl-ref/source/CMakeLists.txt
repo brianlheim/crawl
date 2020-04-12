@@ -1075,3 +1075,6 @@ if(TILE_MODE STREQUAL WEB_TILES)
 
     add_dependencies(${target} relocate-files-for-webserver)
 endif()
+
+add_subdirectory(util)
+add_subdirectory(rltiles)
